@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RELATORIO DOS PRIMEIROS 10.000 DIGITOS PRIMOS</title>
+    <style type="text/css">
+        body {
+            background:#333;
+            font-family:Helvetica, sans-serif;
+            color:#b0e0f0;
+            padding:20px;
+        }
+    </style>
+</head>
+<body> 
+    <div id="relatorio">
+    </div> 
+    <script> 
+    
+        //BUSCA NUMEROS PRIMOS
+        //GERA RELATORIO INFORMATIVO
+
+        //Informações para relatorio
+        let totalNrosPrimos = 0;
+        let ttl_end1 = 0;
+        let ttl_end3 = 0;
+        let ttl_end7 = 0;
+        let ttl_end9 = 0;
+        let ttl100 = 0;
+        let ttl200 = 0;
+        let ttl300 = 0;
+        let ttl400 = 0;
+        let ttl500 = 0;
+        let ttl600 = 0;
+        let ttl700 = 0;
+        let ttl800 = 0;
+        let ttl900 = 0;
+        let ttl1000 = 0;
+        let ttl2000 = 0;
+        let ttl3000 = 0;
+        let ttl4000 = 0;
+        let ttl5000 = 0;
+        let ttl6000 = 0;
+        let ttl7000 = 0;
+        let ttl8000 = 0;
+        let ttl9000 = 0;
+ 
+
+        let mainDiv = document.getElementById('relatorio');   
+        let maxNumber = 10000; //Define o numero maximo para Gerar Relatório.
+        let contador = 0;
+        let listaDePrimos = [];
+ 
+        //FUNCAO
+        function encontraPrimo(numeroRecebido){
+            mainDiv.innerText = 'Calculando '+ Math.ceil ( (100 / maxNumber) * numeroRecebido) +'%';
+
+            let valorPrimo = true;
+            //Verifica se é 0 ou 1
+            if(numeroRecebido < 2) {//001.
+                //console.log("Não é Primo é menor que 2");
+                valorPrimo = false;
+            } else {//001.
+                //Verifica se o número é um dos 4 primeiros Primos existentes.
+                if(numeroRecebido == 2 || numeroRecebido == 3 || numeroRecebido == 5 || numeroRecebido == 7) {//002.
+                    //console.log("Primo."); 
+                    listaDePrimos.push(numeroRecebido); //Add numero primo na lista. 
+                } else {//002.
+                    //VERIFICA SE É PAR PELO RESTO DA DIVISÃO
+                    if ( numeroRecebido % 2 == 0 ) {//003. 
+                        //console.log("Não é Primo o número é PAR");
+                        valorPrimo = false;
+                    } else {//003.
+                        //console.log("IMPAR, Pode ser que seja Primo...");
+                        //Verifica se é um número Terminado em 5 
+                        if( String(numeroRecebido).slice(-1) == 5){//004.
+                            //console.log("Não é Primo, é divisivel por 5");
+                            valorPrimo = false;
+                        } else {//004.
+                            // console.log("Checking possible Primo...");
+                            if ( checaDivisores(numeroRecebido, listaDePrimos) ) {
+                                // console.log('Primo');
+                            } else {
+                                valorPrimo = false;
+                            }
+                            //SE CHEGOU AQUI ELE PODE SER PRIMO.
+                            //DEVE DIVIDIR O VALOR DO NUMERO POR TODOS OS PRIMOS ANTES DELE
+                            //O NÚMERO MÁXIMO QUE SE DEVE DIVIDIR, É QUANDO O NUMERO PRIMO AO QUADRADO ULTRAPASSAR O VALOR DO NRO VERIFICADO
+                            
+                        }//004.
+                    }//003.
+                }//002.
+            }//001.
+
+            //VEREDITO FINAL
+            // console.log(numeroRecebido, valorPrimo); True is Prime
+            if(valorPrimo){
+                //console.log(numeroRecebido);
+                let lastNum = numeroRecebido;
+                totalNrosPrimos++; 
+
+                //Pega Ultimo nro caso for 2 casas decimais ou +
+                if(numeroRecebido>9){ lastNum = String(numeroRecebido).slice(-1); }
+
+                //Soma aos Primos final1
+                if(lastNum == 1) { ttl_end1++; }
+                //Soma aos Primos final1
+                if(lastNum == 3) { ttl_end3++; }
+                //Soma aos Primos final1
+                if(lastNum == 7) { ttl_end7++; }
+                //Soma aos Primos final1
+                if(lastNum == 9) { ttl_end9++; }
+
+                if( numeroRecebido <= 100) {
+                    ttl100++;
+                } else if (numeroRecebido<=200) {
+                    ttl200++;
+                } else if (numeroRecebido <= 300) {
+                    ttl300++;
+                } else if (numeroRecebido <= 400){
+                    ttl400++;
+                } else if ( numeroRecebido <= 500){
+                    ttl500++;
+                } else if ( numeroRecebido <= 600) {
+                    ttl600++;
+                } else if ( numeroRecebido <= 700) {
+                    ttl700++;
+                } else if ( numeroRecebido <= 800) {
+                    ttl800++;
+                } else if ( numeroRecebido <= 900) {
+                    ttl900++;
+                }
+
+                if (numeroRecebido <= 1000) {
+                    ttl1000++;
+                } else if ( numeroRecebido <= 2000){
+                    ttl2000++;
+                } else if ( numeroRecebido <= 3000) {
+                    ttl3000++;
+                } else if ( numeroRecebido <= 4000) {
+                    ttl4000++;
+                } else if ( numeroRecebido <= 5000) {
+                    ttl5000++;
+                } else if ( numeroRecebido <= 6000) {
+                    ttl6000++;
+                } else if ( numeroRecebido <= 7000) {
+                    ttl7000++;
+                } else if ( numeroRecebido <= 8000) {
+                    ttl8000++;
+                } else if ( numeroRecebido <= 9000) {
+                    ttl9000++;
+                }
+
+            }
+        }
+
+        //Verifica se é Divisivel pelos Primos já encontrados
+        function checaDivisores( numero, listaDePrimos) {
+            let numeroPrimo = true;
+            listaDePrimos.forEach( n_primo => { 
+                let resultado = numero/n_primo;
+                if( Number.isInteger(resultado) ) { 
+                    //console.log("Inteiro"); //Houve uma divisão perfeita, não é Primo.
+                    numeroPrimo = false;
+                } else { 
+                    //console.log("Picado: " + resultado);
+                }  
+
+                //PARA AGILIZAR PODE FAZER A SEGUINTE VERIFICAÇÃO E SE DER TRUE PODE PULAR AS DIVISÕES
+                // if (n_primo * n_primo) >= numero { cancelar loop, Ja é considerado Primo. }
+            });
+
+            //VERIFICA SE O NRO É OU NÃO PRIMO
+            if(numeroPrimo){
+                listaDePrimos.push(numero); //Adiciona o Numero Primo na lista. 
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        // CRIA UM LOOP PARA IR BUSCANDO NUMEROS PRIMOS SOZINHO A CADA 100MS... 
+        function loop(){
+            encontraPrimo(contador);
+            contador++; 
+
+            //Valor máximo para evitar travamento.
+            if(contador< maxNumber){
+                setTimeout(loop, 1);
+            } else if(contador == maxNumber){
+                // console.log( "Total Numeros Primos: " + totalNrosPrimos);
+                // console.log( "Total Final 1: " + ttl_end1);
+                // console.log( "Total Final 3: " + ttl_end3);
+                // console.log( "Total Final 7: " + ttl_end7);
+                // console.log( "Total Final 9: " + ttl_end9);
+
+                let ref01 = "<b>1000</b> -> " + ttl1000 + "<br> <b> 2000 </b> -> " + ttl2000+ "<br> <b> 3000 </b> -> " + ttl3000+ "<br> <b> 4000 </b> -> " + ttl4000+ "<br> <b> 5000 </b> -> " + ttl5000+ "<br> <b> 6000 </b> -> " + ttl6000+ "<br> <b> 7000 </b> -> " + ttl7000+ "<br> <b> 8000 </b> -> " + ttl8000+ "<br> <b> 9000 </b> -> " + ttl9000 ;
+                let rel_final = "Terminados em 1: " + ttl_end1 + "<br>Terminados em 2: 1<br>Terminados em 3: "+ttl_end3+"<br>Terminados em 5: 1<br>Terminados em 7: "+ttl_end7+"<br>Terminados em 9: "+ ttl_end9 + "<br><br>" + ref01;
+                //EXIBE RELATORIO:
+                mainDiv.innerHTML = '<h2>Total de Números Primos: '+totalNrosPrimos+'</h2>' + rel_final; 
+
+            }
+        }
+        loop();
+
+    </script>
+</body>
+</html>
