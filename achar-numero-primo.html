@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CODIGO PARA ACHAR NUMERO PRIMO - JS</title>
+    <style type="text/css">
+        body {
+            background:#333;
+            font-family:Helvetica, sans-serif;
+        }
+    </style>
+</head>
+<body> 
+    <div id="numeros">
+
+    </div>
+    <script>
+        //CODIGO PARA DESCOBRIR SE O NUMERO É PRIMO OU NÃO
+        //REGRAS DE NEGÓCIO
+        //NÚMEROS PRIMOS ACIMA DE 10 SÓ PODEM SER TERMINADOS EM 1,3,7 OU 9.
+        //NÚMEROS PRIMOS ABAIXO DE 10 SÃO (2,3,5 E 7)
+        //O NÚMERO 0 E 1 NÃO SÃO PRIMOS E O NUMERO 2 É O ÚNICO NUMERO PRIMO PAR.
+ 
+        let mainSquare = document.getElementById('numeros'); 
+        let bg_r = 0;
+        let bg_g = 0;
+        let bg_b = 0;
+        let contador = 0;
+        let listaDePrimos = [];
+ 
+
+        //FUNCAO
+        function encontraPrimo(numeroRecebido){
+            //Verifica se é 0 ou 1
+            if(numeroRecebido < 2) {//001.
+                //console.log("Não é Primo");
+                return false;
+            } else {//001.
+                //Verifica se o número é um dos 4 primeiros Primos existentes.
+                if(numeroRecebido == 2 || numeroRecebido == 3 || numeroRecebido == 5 || numeroRecebido == 7) {//002.
+                    //console.log("Primo.");
+                    addDivNum(numeroRecebido);
+                    listaDePrimos.push(numeroRecebido); //Add numero primo na lista.
+                    return true;
+                } else {//002.
+                    //VERIFICA SE É PAR PELO RESTO DA DIVISÃO
+                    if ( numeroRecebido % 2 == 0 ) {//003.
+                        //console.log('PAR');
+                        //console.log("Não é Primo");
+                        return false;
+                    } else {//003.
+                        //console.log("IMPAR, Pode ser que seja Primo...");
+                        //Verifica se é um número Terminado em 5 
+                        if( String(numeroRecebido).slice(-1) == 5){//004.
+                            //console.log("Não é Primo, terminar em 5");
+                            return false;
+                        } else {//004.
+                            // console.log("Checking possible Primo...");
+                            
+                            // listaDePrimos.forEach( numero => {
+                            //     return numero;
+                            // });
+                            return checaDivisores(numeroRecebido, listaDePrimos);
+
+                            //console.log(listaDePrimos);
+                            
+                            //SE CHEGOU AQUI ELE PODE SER PRIMO.
+                            //DEVE DIVIDIR O VALOR DO NUMERO POR TODOS OS PRIMOS ANTES DELE
+                            //O NÚMERO MÁXIMO QUE SE DEVE DIVIDIR, É QUANDO O NUMERO PRIMO AO QUADRADO ULTRAPASSAR O VALOR DO NRO VERIFICADO
+                            
+                        }//004.
+                    }//003.
+                }//002.
+            }//001.
+        }
+
+        //Verifica se é Divisivel pelos Primos já encontrados
+        function checaDivisores( numero, listaDePrimos) {
+            let numeroPrimo = true;
+            listaDePrimos.forEach( n_primo => { 
+                let resultado = numero/n_primo;
+                if( Number.isInteger(resultado) ) { 
+                    //console.log("Inteiro"); //Houve uma divisão perfeita, não é Primo.
+                    numeroPrimo = false;
+                } else { 
+                    //console.log("Picado: " + resultado);
+                }  
+
+                //PARA AGILIZAR PODE FAZER A SEGUINTE VERIFICAÇÃO E SE DER TRUE PODE PULAR AS DIVISÕES
+                // if (n_primo * n_primo) >= numero { cancelar loop, Ja é considerado Primo. }
+            });
+
+            //VERIFICA SE O NRO É OU NÃO PRIMO
+            if(numeroPrimo){
+                listaDePrimos.push(numero); //Adiciona o Numero Primo na lista.
+                addDivNum(numero); //Add no SquareHtml
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        // CRIA UM LOOP PARA IR BUSCANDO NUMEROS PRIMOS SOZINHO A CADA 1SEG... 
+        function loop(){
+            encontraPrimo(contador);
+            setTimeout(loop, 1000);
+            contador++;
+            bg_r++;
+            if(bg_r > 9){ bg_r =0; bg_b++; } //DefineCorBackground Random
+            if( bg_b > 9 ) { bg_b = 0; }
+        }
+        loop();
+
+        //FUNCAO QUE ADD SQM DIV COM NRO
+        function addDivNum(number){
+            let squareNumDiv = document.createElement('div'); 
+            //StyleDiv
+            squareNumDiv.setAttribute('style','background:#'+bg_r+'3'+bg_b+'; border:solid 1px #00bff3; width:30px; height:30px; text-align:center; line-height:30px; font-size:12px; color:#00bff3; float:left; margin:2px;');
+            
+            squareNumDiv.innerText = number;
+            mainSquare.appendChild(squareNumDiv); 
+        }
+
+
+
+    </script>
+</body>
+</html>
