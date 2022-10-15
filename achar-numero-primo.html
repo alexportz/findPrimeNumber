@@ -101,14 +101,18 @@
             }
         }
 
-        // CRIA UM LOOP PARA IR BUSCANDO NUMEROS PRIMOS SOZINHO A CADA 1SEG... 
+        // CRIA UM LOOP PARA IR BUSCANDO NUMEROS PRIMOS SOZINHO A CADA 100MS... 
         function loop(){
             encontraPrimo(contador);
-            setTimeout(loop, 1000);
             contador++;
             bg_r++;
             if(bg_r > 9){ bg_r =0; bg_b++; } //DefineCorBackground Random
             if( bg_b > 9 ) { bg_b = 0; }
+
+            //Valor máximo para evitar travamento.
+            if(contador<9999){
+                setTimeout(loop, 1);
+            }
         }
         loop();
 
